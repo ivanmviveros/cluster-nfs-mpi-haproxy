@@ -33,23 +33,3 @@ Vagrant.configure(2) do |config|
     end
   end
 end
-__END__
-config.vm.define :node1 do |vm|
-    vm.vm.network :private_network, ip: "10.10.10.3", netmask: "255.255.255.0"
-    vm.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 512, "--cpus", 1, "--name", "node1"]
-    end
-    vm.vm.provision "shell", path: "openmpi.sh"
-    vm.vm.provision "shell", path: "nfs-cliente.sh"
-    vm.vm.provision "shell", path: "haproxy-cliente.sh", args: "HAClient1 10.10.10.3"
-  end
-  
-  config.vm.define :node2 do |vm|
-    vm.vm.network :private_network, ip: "10.10.10.4", netmask: "255.255.255.0"
-    vm.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", 512, "--cpus", 1, "--name", "node2"]
-    end
-    vm.vm.provision "shell", path: "openmpi.sh"
-    vm.vm.provision "shell", path: "nfs-cliente.sh"
-    vm.vm.provision "shell", path: "haproxy-cliente.sh", args: "HAClient2 10.10.10.4"
-  end    
